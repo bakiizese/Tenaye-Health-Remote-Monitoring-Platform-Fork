@@ -8,7 +8,8 @@ export const getDoctorProfile = async (req, res) => {
       "user",
       "full_name avatar_url email phone",
     );
-    if (!doctor) return res.status(404).json({ message: "Doctor profile not found" });
+    if (!doctor)
+      return res.status(404).json({ message: "Doctor profile not found" });
     res.json(doctor);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -18,29 +19,41 @@ export const getDoctorProfile = async (req, res) => {
 // PATCH /api/doctors/profile - Update current doctor's profile
 export const updateDoctorProfile = async (req, res) => {
   try {
-    const { specialty, subSpecialty, hospital, experience, education, consultation_fee, availability, bio, license_no } = req.body;
+    const {
+      specialty,
+      subSpecialty,
+      hospital,
+      experience,
+      education,
+      consultation_fee,
+      availability,
+      bio,
+      license_no,
+    } = req.body;
 
     // Find doctor by user ID
     const doctor = await Doctor.findOne({ user: req.user._id });
-    if (!doctor) return res.status(404).json({ message: "Doctor profile not found" });
+    if (!doctor)
+      return res.status(404).json({ message: "Doctor profile not found" });
 
     // Update doctor fields
-    if (specialty) doctor.specialty = specialty;
-    if (subSpecialty) doctor.sub_specialty = subSpecialty;
-    if (hospital) doctor.hospital = hospital;
-    if (experience) doctor.experience_years = experience;
-    if (education) doctor.education = education;
-    if (consultation_fee) doctor.consultation_fee = consultation_fee;
-    if (availability) doctor.availability = availability;
-    if (bio) doctor.bio = bio;
-    if (license_no) doctor.license_no = license_no;
+    if (specialty !== undefined) doctor.specialty = specialty;
+    if (subSpecialty !== undefined) doctor.sub_specialty = subSpecialty;
+    if (hospital !== undefined) doctor.hospital = hospital;
+    if (experience !== undefined) doctor.experience_years = experience;
+    if (education !== undefined) doctor.education = education;
+    if (consultation_fee !== undefined)
+      doctor.consultation_fee = consultation_fee;
+    if (availability !== undefined) doctor.availability = availability;
+    if (bio !== undefined) doctor.bio = bio;
+    if (license_no !== undefined) doctor.license_no = license_no;
 
     await doctor.save();
 
     // Update user fields if provided
     const userUpdate = {};
-    if (req.body.name) userUpdate.full_name = req.body.name;
-    if (req.body.phone) userUpdate.phone = req.body.phone;
+    if (req.body.name !== undefined) userUpdate.full_name = req.body.name;
+    if (req.body.phone !== undefined) userUpdate.phone = req.body.phone;
 
     if (Object.keys(userUpdate).length > 0) {
       await User.findByIdAndUpdate(req.user._id, userUpdate);
