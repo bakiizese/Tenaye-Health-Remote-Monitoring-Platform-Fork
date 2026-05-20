@@ -27,12 +27,37 @@ function Toast({ message, type = "success", onClose }) {
   );
 }
 
-const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const DAYS = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
 const TIME_SLOTS = [
-  "08:00 AM", "08:30 AM", "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM",
-  "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM",
-  "02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM",
-  "05:00 PM", "05:30 PM", "06:00 PM"
+  "08:00 AM",
+  "08:30 AM",
+  "09:00 AM",
+  "09:30 AM",
+  "10:00 AM",
+  "10:30 AM",
+  "11:00 AM",
+  "11:30 AM",
+  "12:00 PM",
+  "12:30 PM",
+  "01:00 PM",
+  "01:30 PM",
+  "02:00 PM",
+  "02:30 PM",
+  "03:00 PM",
+  "03:30 PM",
+  "04:00 PM",
+  "04:30 PM",
+  "05:00 PM",
+  "05:30 PM",
+  "06:00 PM",
 ];
 
 export default function DoctorSettings() {
@@ -87,7 +112,10 @@ export default function DoctorSettings() {
           hospital: doctor.hospital || stored.hospital,
           experience: doctor.experience_years || stored.experience,
           education: doctor.education || stored.education,
-          consultationFee: doctor.consultation_fee?.toString() || stored.consultationFee?.replace(" ETB", "") || "",
+          consultationFee:
+            doctor.consultation_fee?.toString() ||
+            stored.consultationFee?.replace(" ETB", "") ||
+            "",
           availability: doctor.availability || [],
           licenseNo: doctor.license_no || stored.licenseNo,
           bio: doctor.bio || stored.bio,
@@ -105,22 +133,22 @@ export default function DoctorSettings() {
 
   // Toggle a time slot for a specific day
   const toggleSlot = (day, slot) => {
-    setProfile(prev => {
-      const existingDay = prev.availability.find(a => a.day === day);
+    setProfile((prev) => {
+      const existingDay = prev.availability.find((a) => a.day === day);
       let newAvailability;
 
       if (existingDay) {
         const hasSlot = existingDay.slots.includes(slot);
         const newSlots = hasSlot
-          ? existingDay.slots.filter(s => s !== slot)
+          ? existingDay.slots.filter((s) => s !== slot)
           : [...existingDay.slots, slot].sort();
 
         if (newSlots.length === 0) {
           // Remove day if no slots
-          newAvailability = prev.availability.filter(a => a.day !== day);
+          newAvailability = prev.availability.filter((a) => a.day !== day);
         } else {
-          newAvailability = prev.availability.map(a =>
-            a.day === day ? { ...a, slots: newSlots } : a
+          newAvailability = prev.availability.map((a) =>
+            a.day === day ? { ...a, slots: newSlots } : a,
           );
         }
       } else {
@@ -133,7 +161,7 @@ export default function DoctorSettings() {
 
   // Check if a slot is selected for a day
   const isSlotSelected = (day, slot) => {
-    const daySchedule = profile.availability.find(a => a.day === day);
+    const daySchedule = profile.availability.find((a) => a.day === day);
     return daySchedule?.slots.includes(slot) || false;
   };
 
@@ -180,7 +208,7 @@ export default function DoctorSettings() {
     }
   };
 
-  const handlePasswordSave = (e) => {
+  const handlePasswordSave = async (e) => {
     e.preventDefault();
     if (!passwords.current) {
       showToast("Enter your current password", "error");
@@ -194,8 +222,30 @@ export default function DoctorSettings() {
       showToast("Passwords do not match", "error");
       return;
     }
-    setPasswords({ current: "", newPass: "", confirm: "" });
-    showToast("Password changed successfully");
+    setSaving(true);
+    try {
+      const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3001";
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_BASE}/api/auth/me/password`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          currentPassword: passwords.current,
+          newPassword: passwords.newPass,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+      setPasswords({ current: "", newPass: "", confirm: "" });
+      showToast("Password changed successfully");
+    } catch (err) {
+      showToast(err.message || "Failed to update password", "error");
+    } finally {
+      setSaving(false);
+    }
   };
 
   const notificationRoutes = {
@@ -316,13 +366,16 @@ export default function DoctorSettings() {
             Availability Schedule
           </h2>
           <p className="text-xs text-gray-400 mb-5">
-            Select the days and time slots when you're available for appointments
+            Select the days and time slots when you're available for
+            appointments
           </p>
 
           {/* Day tabs */}
           <div className="flex flex-wrap gap-2 mb-4">
-            {DAYS.map(day => {
-              const hasSlots = profile.availability.some(a => a.day === day && a.slots.length > 0);
+            {DAYS.map((day) => {
+              const hasSlots = profile.availability.some(
+                (a) => a.day === day && a.slots.length > 0,
+              );
               return (
                 <button
                   key={day}
@@ -345,13 +398,17 @@ export default function DoctorSettings() {
           {/* Time slots grid */}
           <div className="border border-gray-200 rounded-2xl p-4">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-bold text-gray-700">{activeDay}</span>
+              <span className="text-sm font-bold text-gray-700">
+                {activeDay}
+              </span>
               <span className="text-xs text-gray-400">
-                {profile.availability.find(a => a.day === activeDay)?.slots.length || 0} slots selected
+                {profile.availability.find((a) => a.day === activeDay)?.slots
+                  .length || 0}{" "}
+                slots selected
               </span>
             </div>
             <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-2">
-              {TIME_SLOTS.map(slot => {
+              {TIME_SLOTS.map((slot) => {
                 const selected = isSlotSelected(activeDay, slot);
                 return (
                   <button
@@ -372,17 +429,31 @@ export default function DoctorSettings() {
 
           {/* Summary */}
           <div className="mt-4 p-3 bg-gray-50 rounded-xl">
-            <p className="text-xs font-semibold text-gray-500 mb-2">Current Schedule Summary:</p>
+            <p className="text-xs font-semibold text-gray-500 mb-2">
+              Current Schedule Summary:
+            </p>
             {profile.availability.length === 0 ? (
-              <p className="text-xs text-gray-400">No availability set. Patients won't be able to book appointments.</p>
+              <p className="text-xs text-gray-400">
+                No availability set. Patients won't be able to book
+                appointments.
+              </p>
             ) : (
               <div className="space-y-1">
-                {profile.availability.sort((a, b) => DAYS.indexOf(a.day) - DAYS.indexOf(b.day)).map(a => (
-                  <div key={a.day} className="flex items-center gap-2 text-xs">
-                    <span className="font-medium text-gray-700 w-20">{a.day}:</span>
-                    <span className="text-gray-600">{a.slots.join(", ")}</span>
-                  </div>
-                ))}
+                {profile.availability
+                  .sort((a, b) => DAYS.indexOf(a.day) - DAYS.indexOf(b.day))
+                  .map((a) => (
+                    <div
+                      key={a.day}
+                      className="flex items-center gap-2 text-xs"
+                    >
+                      <span className="font-medium text-gray-700 w-20">
+                        {a.day}:
+                      </span>
+                      <span className="text-gray-600">
+                        {a.slots.join(", ")}
+                      </span>
+                    </div>
+                  ))}
               </div>
             )}
           </div>
