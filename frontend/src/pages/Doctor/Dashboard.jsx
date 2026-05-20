@@ -536,7 +536,7 @@ export default function DoctorDashboard() {
                   Doctor Portal  {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
                 </span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-black">Good morning, Dr. {(() => { try { const u = JSON.parse(localStorage.getItem("user") || "{}"); return (u.full_name || u.name || "Doctor").replace(/^Dr\.?\s*/i, ""); } catch { return "Doctor"; } })()}</h2>
+              <h2 className="text-2xl md:text-3xl font-black">Good morning, Dr. {doctorName}</h2>
               <p className="text-white/70 mt-1.5 text-sm">
                 You have{" "}
                 <span className="text-white font-bold">
