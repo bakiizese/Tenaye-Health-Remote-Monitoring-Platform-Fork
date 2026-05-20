@@ -3,7 +3,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   getDoctorProfile,
   subscribeDoctorProfile,
+  updateDoctorProfile,
 } from "../store/doctorProfileStore";
+import { getDoctorProfile as getDoctorProfileAPI } from "../../../services/doctorService";
 
 // Toast component for real-time notifications
 function Toast({ message, type = "info", onClose, action, actionLabel }) {
@@ -147,6 +149,28 @@ export default function DoctorLayout({
 
   useEffect(() => {
     const u = subscribeDoctorProfile(setProfile);
+    // Load real profile from API and update store
+    getDoctorProfileAPI().then((result) => {
+      if (result.data) {
+        const doctor = result.data;
+        const updated = {
+          name: doctor.user?.full_name
+            ? `Dr. ${doctor.user.full_name}`
+            : profile.name,
+          specialty: doctor.specialty || profile.specialty,
+          email: doctor.user?.email || profile.email,
+          phone: doctor.user?.phone || profile.phone,
+          hospital: doctor.hospital || profile.hospital,
+          consultationFee: doctor.consultation_fee
+            ? `${doctor.consultation_fee} ETB`
+            : profile.consultationFee,
+          licenseNo: doctor.license_no || profile.licenseNo,
+          bio: doctor.bio || profile.bio,
+          experience: doctor.experience_years || profile.experience,
+        };
+        updateDoctorProfile(updated);
+      }
+    });
     return u;
   }, []);
 
@@ -282,7 +306,14 @@ export default function DoctorLayout({
           className="mx-4 mb-5 p-4 bg-white/10 rounded-2xl flex items-center gap-3 hover:bg-white/20 transition-colors text-left border border-white/10"
         >
           <div className="w-10 h-10 rounded-full bg-[#4ecca3] flex items-center justify-center text-[#083d40] font-black text-sm shrink-0">
-            A
+            {profile.name
+              ? profile.name
+                  .split(" ")
+                  .map((w) => w[0])
+                  .slice(0, 2)
+                  .join("")
+                  .toUpperCase()
+              : "DR"}
           </div>
           <div className="overflow-hidden flex-1">
             <p className="font-bold text-sm text-white truncate">
@@ -524,7 +555,14 @@ export default function DoctorLayout({
               className="w-9 h-9 rounded-full flex items-center justify-center text-[#083d40] font-black text-sm shadow-md hover:scale-110 transition-transform"
               style={{ background: "linear-gradient(135deg,#4ecca3,#14A085)" }}
             >
-              A
+              {profile.name
+                ? profile.name
+                    .split(" ")
+                    .map((w) => w[0])
+                    .slice(0, 2)
+                    .join("")
+                    .toUpperCase()
+                : "DR"}
             </button>
           </div>
         </header>

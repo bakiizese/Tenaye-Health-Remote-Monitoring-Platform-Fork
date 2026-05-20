@@ -152,24 +152,25 @@ export const updateMe = async (req, res) => {
     const user = await User.findById(req.user._id);
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    if (full_name) user.full_name = full_name;
+    if (full_name !== undefined && full_name !== "") user.full_name = full_name;
     if (phone !== undefined) user.phone = phone;
     if (gender !== undefined) user.gender = gender;
-    if (age !== undefined) user.age = age;
+    if (age !== undefined) user.age = Number(age) || user.age;
     if (address !== undefined) user.address = address;
 
-    await user.save();
+    const updated = await user.save();
     res.json({
-      _id: user._id,
-      full_name: user.full_name,
-      email: user.email,
-      phone: user.phone,
-      gender: user.gender,
-      age: user.age,
-      address: user.address,
-      role: user.role,
+      _id: updated._id,
+      full_name: updated.full_name,
+      email: updated.email,
+      phone: updated.phone,
+      gender: updated.gender,
+      age: updated.age,
+      address: updated.address,
+      role: updated.role,
     });
   } catch (err) {
+    console.error("[updateMe] error:", err.message);
     res.status(500).json({ message: err.message });
   }
 };
