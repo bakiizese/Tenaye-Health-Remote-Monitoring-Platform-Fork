@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema(
     age: { type: Number },
     phone: { type: String },
     avatar_url: { type: String },
+    address: { type: String },
     is_blocked: { type: Boolean, default: false },
   },
   { timestamps: true },
