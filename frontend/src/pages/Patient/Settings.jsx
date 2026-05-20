@@ -79,7 +79,7 @@ export default function PatientSettings() {
     } else {
       // Update localStorage so navbar/layout reflects new name
       const stored = JSON.parse(localStorage.getItem("user") || "{}");
-      localStorage ...stored, full_name: profile.full_name }));
+      localStorage.setItem("user", JSON.stringify({ ...stored, full_name: profile.full_name }));
       showToast("Profile updated successfully");
     }
   };
