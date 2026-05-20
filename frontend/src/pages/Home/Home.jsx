@@ -64,7 +64,9 @@ export default function Home() {
                 stethoscope
               </span>
             </div>
-            <span className="text-[#632a7e] font-bold text-lg">RPHMS</span>
+            <span className="text-[#632a7e] font-bold text-lg">
+              Tenaye Health
+            </span>
           </div>
           <div className="flex items-center gap-3">
             <Link
@@ -236,7 +238,7 @@ export default function Home() {
             Experience the Sanctuary.
           </h3>
           <p className="text-purple-200 mb-8 max-w-md mx-auto">
-            Join RPHMS today and get your first consultation free.
+            Join Tenaye Health today and get your first consultation free.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -264,10 +266,10 @@ export default function Home() {
                 stethoscope
               </span>
             </div>
-            <span className="text-[#632a7e] font-bold">RPHMS</span>
+            <span className="text-[#632a7e] font-bold">Tenaye Health</span>
           </div>
           <p className="text-xs text-gray-400">
-            © 2025 RPHMS — Remote Patient Health Monitoring System
+            © 2025 Tenaye Health — Remote Patient Health Monitoring System
           </p>
         </div>
       </footer>

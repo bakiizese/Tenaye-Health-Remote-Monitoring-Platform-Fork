@@ -1,7 +1,7 @@
 {
   "name": "rphms-backend",
   "version": "1.0.0",
-  "description": "RPHMS Backend - Express + MongoDB + Socket.IO",
+  "description": "Tenaye Health Backend - Express + MongoDB + Socket.IO",
   "type": "module",
   "main": "src/server.js",
   "scripts": {

@@ -28,8 +28,12 @@ function Toast({ message, type = "info", onClose, action, actionLabel }) {
 
   return (
     <div className="fixed top-20 right-4 z-[100] max-w-sm">
-      <div className={`${colors[type]} text-white rounded-2xl shadow-2xl p-4 flex items-start gap-3 animate-slide-in`}>
-        <span className="material-symbols-outlined text-2xl shrink-0">{icons[type]}</span>
+      <div
+        className={`${colors[type]} text-white rounded-2xl shadow-2xl p-4 flex items-start gap-3 animate-slide-in`}
+      >
+        <span className="material-symbols-outlined text-2xl shrink-0">
+          {icons[type]}
+        </span>
         <div className="flex-1 min-w-0">
           <p className="font-bold text-sm">{message}</p>
           {action && (
@@ -115,7 +119,12 @@ const nStyle = {
   lab: { icon: "biotech", bg: "bg-cyan-100", cl: "text-cyan-600" },
 };
 
-export default function DoctorLayout({ children, title, activeCall, onStartCall }) {
+export default function DoctorLayout({
+  children,
+  title,
+  activeCall,
+  onStartCall,
+}) {
   const location = useLocation();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -143,7 +152,8 @@ export default function DoctorLayout({ children, title, activeCall, onStartCall 
 
   // Initialize Socket.io connection for real-time notifications
   useEffect(() => {
-    const socketUrl = import.meta.env.VITE_SOCKET_URL || "http://localhost:3001";
+    const socketUrl =
+      import.meta.env.VITE_SOCKET_URL || "http://localhost:3001";
     socketRef.current = window.io(socketUrl);
 
     return () => {
@@ -232,7 +242,7 @@ export default function DoctorLayout({ children, title, activeCall, onStartCall 
           </div>
           <div className="flex-1">
             <h1 className="text-xl font-black text-white tracking-tight">
-              RPHMS
+              Tenaye Health
             </h1>
             <p className="text-[10px] text-white/50 uppercase tracking-widest">
               Doctor Portal

@@ -27,8 +27,12 @@ function Toast({ message, type = "info", onClose, action, actionLabel }) {
 
   return (
     <div className={`fixed top-20 right-4 z-[100] max-w-sm animate-slide-in`}>
-      <div className={`${colors[type]} text-white rounded-2xl shadow-2xl p-4 flex items-start gap-3`}>
-        <span className="material-symbols-outlined text-2xl shrink-0">{icons[type]}</span>
+      <div
+        className={`${colors[type]} text-white rounded-2xl shadow-2xl p-4 flex items-start gap-3`}
+      >
+        <span className="material-symbols-outlined text-2xl shrink-0">
+          {icons[type]}
+        </span>
         <div className="flex-1 min-w-0">
           <p className="font-bold text-sm">{message}</p>
           {action && (
@@ -128,7 +132,8 @@ export default function PatientLayout({ children, title }) {
     const storedUserName = localStorage.getItem("userName") || "Patient";
     setUserName(storedUserName);
 
-    const socketUrl = import.meta.env.VITE_SOCKET_URL || "http://localhost:3001";
+    const socketUrl =
+      import.meta.env.VITE_SOCKET_URL || "http://localhost:3001";
     socketRef.current = window.io(socketUrl);
     const userId = localStorage.getItem("userId");
 
@@ -197,7 +202,7 @@ export default function PatientLayout({ children, title }) {
               className="text-lg font-black leading-none"
               style={{ color: "#E05C8A" }}
             >
-              RPHMS
+              Tenaye Health
             </h1>
             <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">
               Patient Portal
