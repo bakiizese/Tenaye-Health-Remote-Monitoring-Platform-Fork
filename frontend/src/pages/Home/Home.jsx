@@ -269,7 +269,7 @@ export default function Home() {
             <span className="text-[#632a7e] font-bold">Tenaye Health</span>
           </div>
           <p className="text-xs text-gray-400">
-            © 2025 Tenaye Health — Remote Patient Health Monitoring System
+            © 2026 Tenaye Health — Remote Patient Health Monitoring System
           </p>
         </div>
       </footer>

@@ -129,7 +129,7 @@ export default function PatientSettings() {
                       }
                       className="w-full mt-1 px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#E05C8A] bg-white"
                     >
-                      {["Male", "Female", "Other"].map((g) => (
+                      {["Male", "Female"].map((g) => (
                         <option key={g}>{g}</option>
                       ))}
                     </select>

@@ -672,22 +672,31 @@ export default function PatientDoctors() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [specialty, setSpecialty] = useState("All");
+  const [feeRange, setFeeRange] = useState("All");
+  const [minExp, setMinExp] = useState("All");
   const [selected, setSelected] = useState(null);
+
+  const feeRanges = [
+    { label: "All Fees", value: "All" },
+    { label: "Under 300 ETB", value: "0-300" },
+    { label: "300–600 ETB", value: "300-600" },
+    { label: "600+ ETB", value: "600+" },
+  ];
+
+  const expOptions = [
+    { label: "Any Experience", value: "All" },
+    { label: "2+ Years", value: "2" },
+    { label: "5+ Years", value: "5" },
+    { label: "10+ Years", value: "10" },
+  ];
 
   const fetchDoctors = async () => {
     setLoading(true);
     const filters = {};
-    if (specialty !== "All") {
-      filters.specialty = specialty;
-    }
-    if (search) {
-      filters.search = search;
-    }
-
+    if (specialty !== "All") filters.specialty = specialty;
+    if (search) filters.search = search;
     const result = await getDoctors(filters);
-    if (result.data) {
-      setDoctors(result.data);
-    }
+    if (result.data) setDoctors(result.data);
     setLoading(false);
   };
 
@@ -701,18 +710,30 @@ export default function PatientDoctors() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [specialty, search]);
 
-  const handleBookingSuccess = () => {
-    fetchDoctors();
-  };
+  const handleBookingSuccess = () => fetchDoctors();
 
   const filtered = doctors.filter((d) => {
     const name = d.user?.full_name || d.name || "";
     const doctorSpecialty = d.specialty || "";
+    const fee = d.consultation_fee || d.fee || 0;
+    const exp = d.years_experience || 0;
+
     const matchSearch =
       name.toLowerCase().includes(search.toLowerCase()) ||
-      doctorSpecialty.toLowerCase().includes(search.toLowerCase());
+      doctorSpecialty.toLowerCase().includes(search.toLowerCase()) ||
+      (d.hospital || "").toLowerCase().includes(search.toLowerCase());
+
     const matchSpecialty = specialty === "All" || doctorSpecialty === specialty;
-    return matchSearch && matchSpecialty;
+
+    const matchFee =
+      feeRange === "All" ||
+      (feeRange === "0-300" && fee < 300) ||
+      (feeRange === "300-600" && fee >= 300 && fee <= 600) ||
+      (feeRange === "600+" && fee > 600);
+
+    const matchExp = minExp === "All" || exp >= parseInt(minExp);
+
+    return matchSearch && matchSpecialty && matchFee && matchExp;
   });
 
   return (
@@ -731,8 +752,8 @@ export default function PatientDoctors() {
           </p>
         </div>
 
-        {/* Search + filter */}
-        <div className="flex flex-col sm:flex-row gap-3">
+        {/* Search + filters */}
+        <div className="flex flex-col gap-3">
           <div className="relative flex-1">
             <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xl">
               search
@@ -740,19 +761,60 @@ export default function PatientDoctors() {
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by name or specialty..."
+              placeholder="Search by name, specialty, or hospital..."
               className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#E05C8A] focus:ring-2 focus:ring-rose-100 bg-white"
             />
           </div>
-          <select
-            value={specialty}
-            onChange={(e) => setSpecialty(e.target.value)}
-            className="px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#E05C8A] bg-white text-gray-700 font-semibold"
-          >
-            {specialties.map((s) => (
-              <option key={s}>{s}</option>
-            ))}
-          </select>
+          <div className="flex flex-wrap gap-2">
+            <select
+              value={specialty}
+              onChange={(e) => setSpecialty(e.target.value)}
+              className="px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#E05C8A] bg-white text-gray-700 font-semibold"
+            >
+              {specialties.map((s) => (
+                <option key={s}>{s}</option>
+              ))}
+            </select>
+            <select
+              value={feeRange}
+              onChange={(e) => setFeeRange(e.target.value)}
+              className="px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#E05C8A] bg-white text-gray-700 font-semibold"
+            >
+              {feeRanges.map((f) => (
+                <option key={f.value} value={f.value}>
+                  {f.label}
+                </option>
+              ))}
+            </select>
+            <select
+              value={minExp}
+              onChange={(e) => setMinExp(e.target.value)}
+              className="px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#E05C8A] bg-white text-gray-700 font-semibold"
+            >
+              {expOptions.map((e) => (
+                <option key={e.value} value={e.value}>
+                  {e.label}
+                </option>
+              ))}
+            </select>
+            {(search ||
+              specialty !== "All" ||
+              feeRange !== "All" ||
+              minExp !== "All") && (
+              <button
+                onClick={() => {
+                  setSearch("");
+                  setSpecialty("All");
+                  setFeeRange("All");
+                  setMinExp("All");
+                }}
+                className="px-4 py-2.5 border border-rose-200 text-[#E05C8A] rounded-xl text-sm font-semibold hover:bg-rose-50 transition-all flex items-center gap-1"
+              >
+                <span className="material-symbols-outlined text-sm">close</span>
+                Clear
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Doctor cards */}
