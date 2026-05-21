@@ -50,8 +50,7 @@ export default function DoctorApply() {
       return "Name, email, phone and password are required.";
     if (form.password.length < 6)
       return "Password must be at least 6 characters.";
-    if (form.password !== form.confirm)
-      return "Passwords do not match.";
+    if (form.password !== form.confirm) return "Passwords do not match.";
     return null;
   };
 
@@ -69,7 +68,10 @@ export default function DoctorApply() {
   const handleNext = () => {
     setError("");
     const err = validateStep1();
-    if (err) { setError(err); return; }
+    if (err) {
+      setError(err);
+      return;
+    }
     setStep(2);
   };
 
@@ -77,11 +79,15 @@ export default function DoctorApply() {
     e.preventDefault();
     setError("");
     const err = validateStep2();
-    if (err) { setError(err); return; }
+    if (err) {
+      setError(err);
+      return;
+    }
 
     setLoading(true);
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+      const API_BASE_URL =
+        import.meta.env.VITE_API_URL || "http://localhost:3001";
       const res = await fetch(`${API_BASE_URL}/api/auth/register/doctor`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -93,15 +99,20 @@ export default function DoctorApply() {
           gender: form.gender,
           age: form.age ? Number(form.age) : undefined,
           specialty: form.specialty,
-          years_experience: form.years_experience ? Number(form.years_experience) : undefined,
+          years_experience: form.years_experience
+            ? Number(form.years_experience)
+            : undefined,
           license_number: form.license_number,
           hospital: form.hospital,
-          consultation_fee: form.consultation_fee ? Number(form.consultation_fee) : undefined,
+          consultation_fee: form.consultation_fee
+            ? Number(form.consultation_fee)
+            : undefined,
           bio: form.bio,
         }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Submission failed. Please try again.");
+      if (!res.ok)
+        throw new Error(data.message || "Submission failed. Please try again.");
       setStep(3);
     } catch (err) {
       setError(err.message || "Submission failed. Please try again.");
@@ -128,14 +139,26 @@ export default function DoctorApply() {
         const done = step > num;
         return (
           <div key={name} className="flex items-center gap-2 flex-1">
-            <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shrink-0 transition-all
-              ${done ? "bg-emerald-500 text-white" : active ? "bg-[#632a7e] text-white" : "bg-gray-100 text-gray-400"}`}>
-              {done ? <span className="material-symbols-outlined text-sm">check</span> : num}
+            <div
+              className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shrink-0 transition-all
+              ${done ? "bg-emerald-500 text-white" : active ? "bg-[#632a7e] text-white" : "bg-gray-100 text-gray-400"}`}
+            >
+              {done ? (
+                <span className="material-symbols-outlined text-sm">check</span>
+              ) : (
+                num
+              )}
             </div>
-            <span className={`text-xs font-semibold hidden sm:block ${active ? "text-[#632a7e]" : done ? "text-emerald-600" : "text-gray-400"}`}>
+            <span
+              className={`text-xs font-semibold hidden sm:block ${active ? "text-[#632a7e]" : done ? "text-emerald-600" : "text-gray-400"}`}
+            >
               {name}
             </span>
-            {i < 1 && <div className={`flex-1 h-px ${done ? "bg-emerald-400" : "bg-gray-200"}`} />}
+            {i < 1 && (
+              <div
+                className={`flex-1 h-px ${done ? "bg-emerald-400" : "bg-gray-200"}`}
+              />
+            )}
           </div>
         );
       })}
@@ -145,20 +168,26 @@ export default function DoctorApply() {
   return (
     <div className="min-h-screen bg-[#fdf7f9] flex items-center justify-center p-4">
       <div className="w-full max-w-lg">
-
         {/* Logo */}
         <div className="text-center mb-8">
           <Link to="/home" className="inline-flex items-center gap-2">
             <div className="w-10 h-10 bg-[#632a7e] rounded-2xl flex items-center justify-center">
-              <span className="material-symbols-outlined text-white text-xl">stethoscope</span>
+              <span className="material-symbols-outlined text-white text-xl">
+                stethoscope
+              </span>
             </div>
-            <span className="text-[#632a7e] font-bold text-xl">RPHMS</span>
+            <span className="text-[#632a7e] font-bold text-xl">
+              Tenaye Health
+            </span>
           </Link>
           {step < 3 && (
             <>
-              <h1 className="text-2xl font-black text-gray-800 mt-6">Apply as a Doctor</h1>
+              <h1 className="text-2xl font-black text-gray-800 mt-6">
+                Apply as a Doctor
+              </h1>
               <p className="text-gray-400 text-sm mt-1">
-                Fill in your details — admin will review and approve your account
+                Fill in your details — admin will review and approve your
+                account
               </p>
             </>
           )}
@@ -168,9 +197,13 @@ export default function DoctorApply() {
         {step === 3 && (
           <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 text-center">
             <div className="w-20 h-20 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-4">
-              <span className="material-symbols-outlined text-amber-500 text-4xl">pending_actions</span>
+              <span className="material-symbols-outlined text-amber-500 text-4xl">
+                pending_actions
+              </span>
             </div>
-            <h2 className="text-2xl font-black text-gray-800">Application Submitted!</h2>
+            <h2 className="text-2xl font-black text-gray-800">
+              Application Submitted!
+            </h2>
             <p className="text-gray-500 text-sm mt-2 leading-relaxed">
               Your application is under review. We'll send you an email at{" "}
               <span className="font-bold text-gray-700">{form.email}</span> once
@@ -178,14 +211,19 @@ export default function DoctorApply() {
             </p>
 
             <div className="mt-6 bg-[#fdf0f9] rounded-2xl p-4 text-left space-y-2 border border-purple-100">
-              <p className="text-xs font-black text-gray-400 uppercase tracking-wider mb-3">What happens next</p>
+              <p className="text-xs font-black text-gray-400 uppercase tracking-wider mb-3">
+                What happens next
+              </p>
               {[
                 "Admin reviews your license and credentials",
                 "You receive an approval email with login instructions",
                 "Log in and set your availability schedule",
                 "Patients can start booking appointments with you",
               ].map((step, i) => (
-                <div key={i} className="flex items-start gap-2 text-xs text-gray-600">
+                <div
+                  key={i}
+                  className="flex items-start gap-2 text-xs text-gray-600"
+                >
                   <span className="w-5 h-5 rounded-full bg-[#632a7e] text-white flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5">
                     {i + 1}
                   </span>
@@ -202,7 +240,12 @@ export default function DoctorApply() {
             </button>
             <p className="text-xs text-gray-400 mt-3">
               Already approved?{" "}
-              <Link to="/login" className="text-[#632a7e] font-semibold hover:underline">Sign in</Link>
+              <Link
+                to="/login"
+                className="text-[#632a7e] font-semibold hover:underline"
+              >
+                Sign in
+              </Link>
             </p>
           </div>
         )}
@@ -214,7 +257,9 @@ export default function DoctorApply() {
 
             {error && (
               <div className="flex items-center gap-2 bg-red-50 border border-red-100 text-red-600 text-sm px-4 py-3 rounded-xl mb-5">
-                <span className="material-symbols-outlined text-base">error</span>
+                <span className="material-symbols-outlined text-base">
+                  error
+                </span>
                 {error}
               </div>
             )}
@@ -308,7 +353,9 @@ export default function DoctorApply() {
                   className="w-full py-3 bg-[#632a7e] text-white rounded-xl font-bold text-sm hover:bg-purple-900 transition-colors flex items-center justify-center gap-2 mt-2"
                 >
                   Continue
-                  <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                  <span className="material-symbols-outlined text-sm">
+                    arrow_forward
+                  </span>
                 </button>
               </div>
             )}
@@ -325,7 +372,9 @@ export default function DoctorApply() {
                       className={`${inputClass} bg-white`}
                     >
                       <option value="">Select specialty</option>
-                      {specialties.map((s) => <option key={s}>{s}</option>)}
+                      {specialties.map((s) => (
+                        <option key={s}>{s}</option>
+                      ))}
                     </select>
                   </div>
                   <div>
@@ -385,7 +434,9 @@ export default function DoctorApply() {
                     onChange={(e) => set("bio", e.target.value)}
                     className={`${inputClass} resize-none`}
                   />
-                  <p className={`text-xs mt-1 ${form.bio.length < 30 ? "text-gray-400" : "text-emerald-600"}`}>
+                  <p
+                    className={`text-xs mt-1 ${form.bio.length < 30 ? "text-gray-400" : "text-emerald-600"}`}
+                  >
                     {form.bio.length} / 30 characters minimum
                   </p>
                 </div>
@@ -393,7 +444,10 @@ export default function DoctorApply() {
                 <div className="flex gap-3 pt-1">
                   <button
                     type="button"
-                    onClick={() => { setError(""); setStep(1); }}
+                    onClick={() => {
+                      setError("");
+                      setStep(1);
+                    }}
                     className="px-5 py-3 bg-gray-100 text-gray-600 rounded-xl font-bold text-sm hover:bg-gray-200 transition-colors"
                   >
                     Back
@@ -410,7 +464,9 @@ export default function DoctorApply() {
                       </>
                     ) : (
                       <>
-                        <span className="material-symbols-outlined text-sm">send</span>
+                        <span className="material-symbols-outlined text-sm">
+                          send
+                        </span>
                         Submit Application
                       </>
                     )}
@@ -421,13 +477,19 @@ export default function DoctorApply() {
 
             <p className="text-center text-sm text-gray-400 mt-6">
               Already have an account?{" "}
-              <Link to="/login" className="text-[#632a7e] font-semibold hover:underline">
+              <Link
+                to="/login"
+                className="text-[#632a7e] font-semibold hover:underline"
+              >
                 Sign in
               </Link>
             </p>
             <p className="text-center text-sm text-gray-400 mt-2">
               Registering as a patient?{" "}
-              <Link to="/register" className="text-[#632a7e] font-semibold hover:underline">
+              <Link
+                to="/register"
+                className="text-[#632a7e] font-semibold hover:underline"
+              >
                 Patient registration
               </Link>
             </p>

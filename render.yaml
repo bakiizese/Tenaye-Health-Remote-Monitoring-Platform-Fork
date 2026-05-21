@@ -6,7 +6,12 @@ services:
     plan: free
     buildCommand: cd backend && npm install
     startCommand: cd backend && npm start
+    healthCheckPath: /health
     envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
       - key: MONGO_URI
         sync: false
       - key: JWT_SECRET
@@ -16,8 +21,10 @@ services:
       - key: CHAPA_SECRET_KEY
         sync: false
       - key: CHAPA_TEST_MODE
-        sync: false
+        value: false
       - key: STREAM_API_KEY
         sync: false
       - key: STREAM_API_SECRET
+        sync: false
+      - key: CHAPA_WEBHOOK_SECRET
         sync: false

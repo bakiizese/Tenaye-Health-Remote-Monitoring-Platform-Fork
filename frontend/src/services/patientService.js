@@ -386,3 +386,48 @@ export const downloadPrescriptionPDF = async (prescriptionId) => {
     return { success: false, error: error.message };
   }
 };
+
+// ─── PROFILE ──────────────────────────────────────────────────────────────────
+
+export const getMyProfile = async () => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/auth/me`, {
+      headers: getAuthHeaders(),
+    });
+    const data = await res.json();
+    if (!res.ok) return { error: data.message };
+    return { data };
+  } catch {
+    return { error: "Failed to load profile" };
+  }
+};
+
+export const updateMyProfile = async (profileData) => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/auth/me`, {
+      method: "PUT",
+      headers: getAuthHeaders(),
+      body: JSON.stringify(profileData),
+    });
+    const data = await res.json();
+    if (!res.ok) return { error: data.message };
+    return { data };
+  } catch {
+    return { error: "Failed to update profile" };
+  }
+};
+
+export const updateMyPassword = async (currentPassword, newPassword) => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/auth/me/password`, {
+      method: "PUT",
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ currentPassword, newPassword }),
+    });
+    const data = await res.json();
+    if (!res.ok) return { error: data.message };
+    return { data };
+  } catch {
+    return { error: "Failed to update password" };
+  }
+};

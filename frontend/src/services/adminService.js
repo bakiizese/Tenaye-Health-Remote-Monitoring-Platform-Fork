@@ -606,9 +606,9 @@ export const sendBroadcast = async ({ title, message, target }) => {
 export const getSettings = async () => {
   return {
     data: {
-      platformName: "RPHMS",
+      platformName: "Tenaye Health",
       tagline: "Remote Patient Health Monitoring System",
-      supportEmail: "support@rphms.com",
+      supportEmail: "support@tenayehealth.com",
       language: "en",
       timezone: "Africa/Addis_Ababa",
       jwtExpiry: 24,

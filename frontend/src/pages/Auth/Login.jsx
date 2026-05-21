@@ -51,7 +51,9 @@ export default function Login() {
                 stethoscope
               </span>
             </div>
-            <span className="text-[#632a7e] font-bold text-xl">RPHMS</span>
+            <span className="text-[#632a7e] font-bold text-xl">
+              Tenaye Health
+            </span>
           </Link>
           <h1 className="text-2xl font-black text-gray-800 mt-6">
             Welcome back

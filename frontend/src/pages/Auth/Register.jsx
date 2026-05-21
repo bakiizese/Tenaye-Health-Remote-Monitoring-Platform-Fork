@@ -82,7 +82,9 @@ export default function Register() {
                 stethoscope
               </span>
             </div>
-            <span className="text-[#632a7e] font-bold text-xl">RPHMS</span>
+            <span className="text-[#632a7e] font-bold text-xl">
+              Tenaye Health
+            </span>
           </Link>
           <h1 className="text-2xl font-black text-gray-800 mt-6">
             Create your account
@@ -117,7 +119,6 @@ export default function Register() {
                   <option value="">Select</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
-                  <option value="Other">Other</option>
                 </select>
               </div>
             </div>
@@ -183,7 +184,6 @@ export default function Register() {
               Apply here
             </Link>
           </p>
-        
         </div>
       </div>
     </div>

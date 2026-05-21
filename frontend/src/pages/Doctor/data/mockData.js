@@ -67,7 +67,7 @@ export const mockDoctorProfile = {
   name: "Dr. Amanuel Tesfaye",
   specialty: "Cardiology",
   subSpecialty: "Interventional Cardiology",
-  email: "amanuel.tesfaye@rphms.et",
+  email: "amanuel.tesfaye@tenayehealth.et",
   phone: "+251 91 234 5678",
   experience: "10 years",
   education: "MD, Addis Ababa University · Fellowship, Cardiology",

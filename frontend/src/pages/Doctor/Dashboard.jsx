@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import DoctorLayout from "./components/DoctorLayout";
 import {
@@ -499,7 +499,7 @@ export default function DoctorDashboard() {
                       >
                         <p className="text-sm">{msg.text}</p>
                         <p className="text-xs mt-1 opacity-70">
-                          {msg.user} • {msg.timestamp}
+                          {msg.user} � {msg.timestamp}
                         </p>
                       </div>
                     ))
@@ -546,7 +546,7 @@ export default function DoctorDashboard() {
                   Doctor Portal  {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
                 </span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-black">Good morning, Dr. Amanuel </h2>
+              <h2 className="text-2xl md:text-3xl font-black">Good morning, Dr. {doctorName}</h2>
               <p className="text-white/70 mt-1.5 text-sm">
                 You have{" "}
                 <span className="text-white font-bold">

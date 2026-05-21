@@ -7,10 +7,11 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import cors from "cors";
 import "dotenv/config";
+import "./config/env.js"; // validates required env vars at startup
 import connectDB from "./config/db.js";
+import mongoose from "mongoose";
 import path from "path";
 import { fileURLToPath } from "url";
-import fs from "fs";
 
 // Routes
 import authRoutes from "./routes/authRoutes.js";
@@ -31,19 +32,17 @@ connectDB();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Ensure uploads directory exists
-const uploadsDir = path.join(__dirname, "../uploads/receipts");
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
-}
-
 const app = express();
 const httpServer = createServer(app);
 
 const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:5173")
   .split(",")
-  .map((o) => o.trim())
-  .concat(["http://localhost:5174", "http://localhost:5175"]);
+  .map((o) => o.trim());
+
+// In development, also allow common local ports
+if (process.env.NODE_ENV !== "production") {
+  allowedOrigins.push("http://localhost:5174", "http://localhost:5175");
+}
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -80,7 +79,14 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/stream", streamRoutes);
 app.use("/api/prescriptions", prescriptionRoutes);
 
-app.get("/health", (_, res) => res.json({ status: "ok", db: "mongodb" }));
+app.get("/health", (_, res) => {
+  const dbState = mongoose.connection.readyState;
+  // 1 = connected, 2 = connecting
+  if (dbState === 1) {
+    return res.status(200).json({ status: "ok", db: "connected" });
+  }
+  return res.status(503).json({ status: "degraded", db: "disconnected" });
+});
 
 // Socket.IO — WebRTC signaling
 io.on("connection", (socket) => {
