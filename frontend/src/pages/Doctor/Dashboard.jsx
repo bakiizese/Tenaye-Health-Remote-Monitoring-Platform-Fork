@@ -14,6 +14,16 @@ import {
 const StreamVideo = window?.StreamVideo?.StreamVideoClient;
 const StreamChat = window?.StreamChat?.StreamChat;
 
+// Helper to build API URL with /api prefix if needed
+const buildApiUrl = (path) => {
+  const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:3001";
+  // Ensure baseUrl has /api prefix
+  const normalizedBase = baseUrl.endsWith("/api") 
+    ? baseUrl 
+    : `${baseUrl}/api`;
+  return `${normalizedBase}${path}`;
+};
+
 const statusColors = {
   upcoming: "bg-blue-100 text-blue-700",
   completed: "bg-emerald-100 text-emerald-700",
@@ -184,7 +194,7 @@ export default function DoctorDashboard() {
 
       // Get Stream token
       const streamTokenRes = await fetch(
-        `${import.meta.env.VITE_API_URL}/stream/token`,
+        buildApiUrl("/stream/token"),
         {
           method: "POST",
           headers: {
@@ -292,7 +302,7 @@ export default function DoctorDashboard() {
 
       // Notify backend
       if (sosCallId) {
-        await fetch(`${import.meta.env.VITE_API_URL}/stream/end-call`, {
+        await fetch(buildApiUrl("/stream/end-call"), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

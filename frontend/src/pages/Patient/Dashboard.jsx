@@ -7,6 +7,16 @@ import { getMyAppointments, getPayments } from "../../services/patientService";
 const StreamVideo = window?.StreamVideo?.StreamVideoClient;
 const StreamChat = window?.StreamChat?.StreamChat;
 
+// Helper to build API URL with /api prefix if needed
+const buildApiUrl = (path) => {
+  const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:3001";
+  // Ensure baseUrl has /api prefix
+  const normalizedBase = baseUrl.endsWith("/api") 
+    ? baseUrl 
+    : `${baseUrl}/api`;
+  return `${normalizedBase}${path}`;
+};
+
 const statusColors = {
   upcoming: "bg-rose-100 text-rose-700",
   completed: "bg-emerald-100 text-emerald-700",
@@ -323,7 +333,7 @@ export default function PatientDashboard() {
       let streamTokenData;
       try {
         const streamTokenRes = await fetch(
-          `${import.meta.env.VITE_API_URL}/stream/token`,
+          buildApiUrl("/stream/token"),
           {
             method: "POST",
             headers: {
@@ -365,7 +375,7 @@ export default function PatientDashboard() {
       let callData;
       try {
         const callRes = await fetch(
-          `${import.meta.env.VITE_API_URL}/stream/create-call`,
+          buildApiUrl("/stream/create-call"),
           {
             method: "POST",
             headers: {
@@ -500,7 +510,7 @@ export default function PatientDashboard() {
 
       // Notify backend
       if (callId) {
-        await fetch(`${import.meta.env.VITE_API_URL}/stream/end-call`, {
+        await fetch(buildApiUrl("/stream/end-call"), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

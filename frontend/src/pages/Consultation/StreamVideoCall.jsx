@@ -38,7 +38,15 @@ import "@stream-io/video-react-sdk/dist/css/styles.css";
 import { StreamChat } from "stream-chat";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
-const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY || "jy4cdzbaxp7f";
+// Helper to build API URL with /api prefix if needed
+const buildApiUrl = (path) => {
+  const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:3001";
+  // Ensure baseUrl has /api prefix
+  const normalizedBase = baseUrl.endsWith("/api") 
+    ? baseUrl 
+    : `${baseUrl}/api`;
+  return `${normalizedBase}${path}`;
+};
 
 // Get auth token from localStorage
 const getAuthToken = () => localStorage.getItem("token");
@@ -57,7 +65,7 @@ const getCurrentUser = () => {
 
 // Fetch Stream token from backend
 const fetchStreamToken = async (userId) => {
-  const response = await fetch(`${API_BASE_URL}/stream/token`, {
+  const response = await fetch(buildApiUrl("/stream/token"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
