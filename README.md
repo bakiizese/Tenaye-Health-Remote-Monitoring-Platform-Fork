@@ -4,6 +4,39 @@ Tenaye Health is an innovative digital health solution designed to bridge the st
 
 ---
 
+## 🎬 Interactive Preview
+
+### 🩷 Patient Portal
+<div class="slide">The Patient Portal is designed with simplicity and empathy at its core. Patients can log daily symptoms, track vital signs, and view personalized health summaries. Animated cards fade in smoothly, while health score bars fill dynamically to simulate real‑time monitoring.</div>
+
+
+
+<img width="1350" height="628" alt="image" src="https://github.com/user-attachments/assets/e0dca971-9496-47da-aefc-f7c1c1239d7a" />
+
+
+---
+
+### 💚 Doctor Dashboard
+<div class="fade">The Doctor Dashboard empowers clinicians with beautifully visualized health trends, alerts, and historical data. Line graphs animate into view, metrics pulse gently, and alerts glow to highlight critical changes — giving doctors a lively, responsive interface for proactive care.</div>
+
+
+
+<img width="1500" height="725" alt="image" src="https://github.com/user-attachments/assets/f9c4351f-dd16-4324-940e-5ec076c425ee" />
+
+
+---
+
+### 💜 Admin Console
+<div class="typing">The Admin Console provides administrators with system‑wide analytics and oversight. Reports slide in with motion effects, alerts pulse red when critical thresholds are crossed, and dashboards update dynamically — ensuring smooth, engaging visibility across the platform.</div>
+
+
+
+<img width="1359" height="637" alt="image" src="https://github.com/user-attachments/assets/2b397304-732c-4c71-8e9b-a011ff6692f9" />
+
+
+
+---
+
 ## 👥 Project Team & Contributors
 
 This project was developed by our team at Adama Science and Technology University (ASTU):
