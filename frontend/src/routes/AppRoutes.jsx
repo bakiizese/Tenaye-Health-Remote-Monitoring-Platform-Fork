@@ -44,6 +44,11 @@ import PatientVitals from "../pages/Patient/Vitals";
 import PatientBilling from "../pages/Patient/Billing";
 import PatientBlogs from "../pages/Patient/Blogs";
 import PatientSettings from "../pages/Patient/Settings";
+import PatientNutrition from "../pages/Patient/Nutrition";
+import PatientMentalHealth from "../pages/Patient/MentalHealth";
+import PatientChat from "../pages/Patient/Chat";
+import PatientFitness from "../pages/Patient/Fitness";
+import DoctorChat from "../pages/Doctor/Chat";
 import PaymentSuccess from "../pages/Patient/PaymentSuccess";
 import PaymentFailed from "../pages/Patient/PaymentFailed";
 
@@ -192,6 +197,14 @@ export default function AppRoutes() {
         }
       />
       <Route
+        path="/doctor/chat"
+        element={
+          <P allowedRoles={["doctor"]}>
+            <DoctorChat />
+          </P>
+        }
+      />
+      <Route
         path="/doctor/prescriptions"
         element={
           <P allowedRoles={["doctor"]}>
@@ -282,6 +295,14 @@ export default function AppRoutes() {
         }
       />
       <Route
+        path="/patient/fitness"
+        element={
+          <P allowedRoles={["patient"]}>
+            <PatientFitness />
+          </P>
+        }
+      />
+      <Route
         path="/patient/vitals"
         element={
           <P allowedRoles={["patient"]}>
@@ -302,6 +323,30 @@ export default function AppRoutes() {
         element={
           <P allowedRoles={["patient"]}>
             <PatientBlogs />
+          </P>
+        }
+      />
+      <Route
+        path="/patient/chat"
+        element={
+          <P allowedRoles={["patient"]}>
+            <PatientChat />
+          </P>
+        }
+      />
+      <Route
+        path="/patient/nutrition"
+        element={
+          <P allowedRoles={["patient"]}>
+            <PatientNutrition />
+          </P>
+        }
+      />
+      <Route
+        path="/patient/mental-health"
+        element={
+          <P allowedRoles={["patient"]}>
+            <PatientMentalHealth />
           </P>
         }
       />

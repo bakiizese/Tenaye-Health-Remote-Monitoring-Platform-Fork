@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { mockPatientNotifications } from "../data/mockData";
+import ChatBot from "../../../components/ChatBot";
 
 // Toast component for real-time notifications
 function Toast({ message, type = "info", onClose, action, actionLabel }) {
@@ -66,6 +67,9 @@ const navItems = [
     icon: "medication",
   },
   { path: "/patient/lab-results", label: "Lab Results", icon: "biotech" },
+  { path: "/patient/nutrition", label: "Nutrition", icon: "nutrition" },
+  { path: "/patient/mental-health", label: "Mental Health", icon: "psychology" },
+  { path: "/patient/fitness", label: "My Fitness", icon: "fitness_center" },
   { path: "/patient/vitals", label: "My Vitals", icon: "monitor_heart" },
   { path: "/patient/billing", label: "Billing", icon: "payments" },
   { path: "/patient/blogs", label: "Health Blogs", icon: "article" },
@@ -388,6 +392,7 @@ export default function PatientLayout({ children, title }) {
         </header>
         <main className="flex-1 p-4 md:p-6">{children}</main>
       </div>
+      <ChatBot />
     </div>
   );
 }

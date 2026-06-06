@@ -1077,6 +1077,50 @@ export default function PatientDashboard() {
               </button>
             </div>
 
+            {/* Nutrition Snapshot */}
+            <div className="bg-white rounded-2xl border border-emerald-100 hover:shadow-lg transition-all p-5">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-bold text-gray-800 flex items-center gap-2">
+                  <span className="material-symbols-outlined text-emerald-500">
+                    nutrition
+                  </span>
+                  Nutrition Snapshot
+                </h3>
+                <button
+                  onClick={() => navigate("/patient/nutrition")}
+                  className="text-xs font-bold text-emerald-600 hover:underline"
+                >
+                  View All →
+                </button>
+              </div>
+              <div className="space-y-2">
+                {[
+                  { label: "Blood Glucose", icon: "water_drop", unit: "mg/dL", color: "#E05C8A", bg: "bg-rose-50" },
+                  { label: "Blood Pressure", icon: "favorite", unit: "mmHg", color: "#3b82f6", bg: "bg-blue-50" },
+                  { label: "Body Weight", icon: "scale", unit: "kg", color: "#8b5cf6", bg: "bg-violet-50" },
+                ].map(({ label, icon, unit, color, bg }) => (
+                  <div key={label} className={`flex items-center gap-3 p-2.5 rounded-xl ${bg} border border-white`}>
+                    <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center shrink-0">
+                      <span className="material-symbols-outlined text-base" style={{ color }}>
+                        {icon}
+                      </span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-bold text-gray-700">{label}</p>
+                      <p className="text-[10px] text-gray-400">{unit}</p>
+                    </div>
+                    <span className="text-[10px] font-bold text-gray-400">— Log in Vitals</span>
+                  </div>
+                ))}
+              </div>
+              <button
+                onClick={() => navigate("/patient/nutrition")}
+                className="w-full mt-3 py-2 bg-emerald-50 text-emerald-600 text-xs font-bold rounded-xl hover:bg-emerald-100 transition-all border border-emerald-100"
+              >
+                View Nutrition Insights
+              </button>
+            </div>
+
             {/* Recent Activity */}
             <div className="bg-white rounded-2xl border border-rose-100 hover:shadow-lg transition-all p-5">
               <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2">

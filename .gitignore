@@ -29,3 +29,11 @@ dist-ssr
 .env.local
 !.env.example
 !.env.production.template
+
+# Universal wildcard ignores for Claude Code and Git
+**/node_modules/
+**/.git/
+**/build/
+**/dist/
+**/.expo/
+**/package-lock.json

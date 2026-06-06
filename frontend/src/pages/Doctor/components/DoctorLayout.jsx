@@ -69,6 +69,7 @@ const navItems = [
     icon: "calendar_today",
   },
   { path: "/doctor/patients", label: "My Patients", icon: "group" },
+  { path: "/doctor/chat", label: "Messages", icon: "forum" },
   { path: "/doctor/prescriptions", label: "Prescriptions", icon: "medication" },
   { path: "/doctor/lab-orders", label: "Lab Orders", icon: "biotech" },
   { path: "/doctor/vitals", label: "Vital Alerts", icon: "monitor_heart" },

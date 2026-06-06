@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(service mongod *)",
+      "Bash(timeout 8 node src/server.js)"
+    ]
+  }
+}

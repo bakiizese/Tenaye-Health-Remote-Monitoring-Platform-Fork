@@ -30,5 +30,10 @@ export const MONGO_URI = process.env.MONGO_URI;
 export const CORS_ORIGIN = process.env.CORS_ORIGIN;
 export const PORT = process.env.PORT || 3001;
 export const NODE_ENV = process.env.NODE_ENV || "development";
+export const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 
-export default { JWT_SECRET, MONGO_URI, CORS_ORIGIN, PORT, NODE_ENV };
+if (!process.env.ANTHROPIC_API_KEY) {
+  console.warn("[Env] WARNING: ANTHROPIC_API_KEY not set — AI health assistant will not function.");
+}
+
+export default { JWT_SECRET, MONGO_URI, CORS_ORIGIN, PORT, NODE_ENV, ANTHROPIC_API_KEY };

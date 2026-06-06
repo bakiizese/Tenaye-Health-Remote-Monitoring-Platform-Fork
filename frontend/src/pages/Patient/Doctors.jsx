@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import PatientLayout from "./components/PatientLayout";
 import {
   getDoctors,
@@ -18,6 +19,7 @@ const specialties = [
   "Neurology",
   "Pediatrics",
   "Orthopedics",
+  "Nutritionist",
 ];
 
 const statusColors = {
@@ -668,10 +670,13 @@ function DoctorModal({ doctor: initialDoctor, onClose, onBookingSuccess }) {
 }
 
 export default function PatientDoctors() {
+  const location = useLocation();
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [specialty, setSpecialty] = useState("All");
+  const [specialty, setSpecialty] = useState(
+    location.state?.specialtyFilter || "All",
+  );
   const [feeRange, setFeeRange] = useState("All");
   const [minExp, setMinExp] = useState("All");
   const [selected, setSelected] = useState(null);
